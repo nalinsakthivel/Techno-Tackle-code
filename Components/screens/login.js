@@ -1,13 +1,44 @@
-import React from 'react';
-import {StyleSheet, ScrollView, View, TouchableOpacity} from 'react-native';
+import React, {Fragment, useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
 import {colours} from '../../constants';
 import {Paragraph, Textinput} from '../atom';
 import {Facebook} from '../../Assets/Icon';
 
 import LinearGradient from 'react-native-linear-gradient';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 
 const login = () => {
+  const formRef = useRef();
+
+  const handleSubmit = () => {
+    if (formRef.current) formRef.current.handleSubmit();
+  };
+  const validationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .label('Email')
+      .email('Enter a valid email')
+      .required('Please enter a registered email'),
+    password: yup
+      .string()
+      .label('Password')
+      .required('Please enter a password')
+      .min(8)
+      .max(16)
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/gm,
+        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
+      ),
+  });
+
   return (
     <ScrollView
       style={styles.mainContainer}
@@ -16,22 +47,41 @@ const login = () => {
         <Paragraph style={styles.welcomeText}>Welcome,</Paragraph>
         <Paragraph style={styles.signinText}>Sign in to continue!</Paragraph>
       </View>
-      <View style={{alignItems: 'center'}}>
-        <View style={styles.emailinputContainer}>
-          <Textinput
-            title={'E-Mail'}
-            placeholder={'Enter e-mail id'}
-            keyboardType="email-address"
-          />
-        </View>
-        <View style={styles.pswdinputContainer}>
-          <Textinput
-            title={'Password'}
-            placeholder={'Enter password'}
-            secureTextEntry={true}
-          />
-        </View>
-      </View>
+      <Formik
+        innerRef={formRef}
+        initialValues={{email: '', password: ''}}
+        onSubmit={values => console.log(values)}
+        validationSchema={validationSchema}>
+        {formikProps => (
+          <Fragment>
+            <View style={{alignItems: 'center'}}>
+              <View style={styles.emailinputContainer}>
+                <Textinput
+                  title={'E-Mail'}
+                  placeholder={'Enter e-mail id'}
+                  keyboardType="email-address"
+                  onChangeText={formikProps.handleChange('email')}
+                />
+              </View>
+              <Text style={styles.errorText}>
+                {formikProps.touched.email && formikProps.errors.email}
+              </Text>
+              <View style={styles.pswdinputContainer}>
+                <Textinput
+                  title={'Password'}
+                  placeholder={'Enter password'}
+                  secureTextEntry={true}
+                  onChangeText={formikProps.handleChange('password')}
+                />
+              </View>
+              <Text style={styles.errorText}>
+                {formikProps.touched.password && formikProps.errors.password}
+              </Text>
+            </View>
+          </Fragment>
+        )}
+      </Formik>
+
       <TouchableOpacity style={styles.forgotpswdContainer}>
         <Paragraph>Forget Password?</Paragraph>
       </TouchableOpacity>
@@ -41,7 +91,7 @@ const login = () => {
           style={styles.buttonContainer}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleSubmit}>
             <Paragraph style={styles.buttonText}>Login</Paragraph>
           </TouchableOpacity>
         </LinearGradient>
@@ -135,5 +185,9 @@ const styles = StyleSheet.create({
     color: colours.Persianred,
     fontSize: 15,
     fontWeight: 'bold',
+  },
+  errorText: {
+    fontSize: 11,
+    color: 'red',
   },
 });
