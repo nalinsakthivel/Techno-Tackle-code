@@ -11,12 +11,14 @@ import {colours} from '../../constants';
 import {Paragraph, Textinput} from '../atom';
 import {Facebook} from '../../Assets/Icon';
 
+import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
 const login = () => {
   const formRef = useRef();
+  const navigation = useNavigation();
 
   const handleSubmit = () => {
     if (formRef.current) formRef.current.handleSubmit();
@@ -39,6 +41,11 @@ const login = () => {
       ),
   });
 
+  const onSubmit = values => {
+    console.log(values);
+    navigation.push('home');
+  };
+
   return (
     <ScrollView
       style={styles.mainContainer}
@@ -50,7 +57,7 @@ const login = () => {
       <Formik
         innerRef={formRef}
         initialValues={{email: '', password: ''}}
-        onSubmit={values => console.log(values)}
+        onSubmit={onSubmit}
         validationSchema={validationSchema}>
         {formikProps => (
           <Fragment>
