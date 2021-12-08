@@ -1,7 +1,7 @@
-# Flipkart Clone - Home screen
-##Ouput 1
+# Techno-Tackle-Interview-code
+Output1
 ![Demo png](https://github.com/nalinsakthivel/Techno-Tackle-Interview-code/blob/master/output/task%201.png)
-##Output 2
+Output2
 ![Demo png](https://github.com/nalinsakthivel/Techno-Tackle-Interview-code/blob/master/output/task2.png)
 
 ## Installation
@@ -11,7 +11,7 @@ App requires [Node.js](https://nodejs.org/) v14+ to run.
 Install the dependencies and devDependencies and start the server.
 
 ```sh
-cd Flipkart-Home
+cd Techno-Tackle-Interview-code
 npm i
 yarn start
 ```
