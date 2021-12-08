@@ -3,6 +3,8 @@ Output1
 ![Demo png](https://github.com/nalinsakthivel/Techno-Tackle-Interview-code/blob/master/output/task%201.png)
 Output2
 ![Demo png](https://github.com/nalinsakthivel/Techno-Tackle-Interview-code/blob/master/output/task2.png)
+Output 3
+![Demo png](https://github.com/nalinsakthivel/Techno-Tackle-Interview-code/blob/master/output/output3.png)
 
 ## Installation
 
